@@ -2,6 +2,7 @@
 
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { TopBar } from "@/components/dashboard/TopBar";
+import { MobileNav } from "@/components/layout/MobileNav";
 import { useStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
@@ -47,12 +48,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           isFocusMode ? "flex items-center justify-center p-0" : ""
         )}>
           <div className={cn(
-            "mx-auto transition-all duration-500",
+            "mx-auto transition-all duration-500 pb-20 md:pb-0",
             isFocusMode ? "w-full max-w-5xl" : "max-w-7xl h-full"
           )}>
             {children}
           </div>
         </main>
+        
+        {!isFocusMode && <MobileNav />}
       </div>
     </div>
   );
