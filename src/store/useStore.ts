@@ -59,6 +59,10 @@ interface AppState {
   setProfile: (profile: { occupation: string; bio: string }) => void;
   updateProfileData: (profile: { occupation: string; bio: string }) => Promise<void>;
 
+  // UI State
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+
   // Calendar State
   calendarEvents: CalendarEvent[];
   setCalendarEvents: (events: CalendarEvent[]) => void;
@@ -126,6 +130,9 @@ export const useStore = create<AppState>((set) => ({
       await setDoc(doc(db, `users/${auth.currentUser.uid}/profile`, 'data'), profile);
     }
   },
+
+  isMobileMenuOpen: false,
+  setIsMobileMenuOpen: (isOpen) => set({ isMobileMenuOpen: isOpen }),
 
   calendarEvents: [],
   setCalendarEvents: (events) => set({ calendarEvents: events }),

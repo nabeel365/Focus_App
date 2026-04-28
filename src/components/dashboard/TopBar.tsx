@@ -1,19 +1,25 @@
 "use client";
 
-import { Bell, Search, Flame } from "lucide-react";
+import { Bell, Search, Flame, Menu } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { useAuth } from "@/context/AuthContext";
 
 export function TopBar() {
-  const { isFocusMode, searchQuery, setSearchQuery, profile } = useStore();
+  const { isFocusMode, searchQuery, setSearchQuery, profile, setIsMobileMenuOpen } = useStore();
   const { user } = useAuth();
 
   if (isFocusMode) return null;
 
   return (
-    <header className="h-20 px-8 flex items-center justify-between glass z-10 sticky top-0 border-b border-border">
-      <div className="flex-1 max-w-xl">
-        <div className="relative group">
+    <header className="h-20 px-4 md:px-8 flex items-center justify-between glass z-10 sticky top-0 border-b border-border">
+      <div className="flex items-center gap-4 flex-1 max-w-xl">
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="md:hidden p-2 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-white transition-colors"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+        <div className="relative group w-full hidden md:block">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <Search className="h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           </div>

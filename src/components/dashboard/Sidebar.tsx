@@ -16,11 +16,23 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const xp = useStore((state) => state.xp);
+  const { xp, isMobileMenuOpen, setIsMobileMenuOpen } = useStore();
 
   return (
-    <div className="w-64 h-screen border-r border-border glass flex flex-col justify-between hidden md:flex sticky top-0">
-      <div className="p-6">
+    <>
+      {/* Mobile Backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      <div className={cn(
+        "w-64 h-screen border-r border-border glass flex flex-col justify-between fixed md:sticky top-0 left-0 z-50 transition-transform duration-300 ease-in-out",
+        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}>
+        <div className="p-6">
         <div className="flex items-center gap-3 mb-10">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.5)]">
             <Hexagon className="text-white w-5 h-5" />
@@ -35,6 +47,7 @@ export function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden",
                   isActive 
@@ -70,7 +83,7 @@ export function Sidebar() {
         </div>
 
         <nav className="space-y-2">
-          <Link href="/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-white hover:bg-white/5 transition-all duration-300">
+          <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-white hover:bg-white/5 transition-all duration-300">
             <Settings className="w-5 h-5" />
             <span className="font-medium text-sm">Settings</span>
           </Link>
@@ -83,6 +96,7 @@ export function Sidebar() {
           </button>
         </nav>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
